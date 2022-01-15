@@ -15,19 +15,27 @@ class Signin extends StatefulWidget {
 
 class _SigninState extends State<Signin> {
   final _formKey = GlobalKey<FormState>();
-  Future save() async {
-    var res = await http.post("http://localhost:8080/signin",
-        headers: <String, String>{
-          'Context-Type': 'application/json;charSet=UTF-8'
-        },
-        body: <String, String>{
-          'email': user.email,
-          'password': user.password
-        });
-    print(res.body);
-    Navigator.push(
-        context, new MaterialPageRoute(builder: (context) => Dashboard()));
-  }
+  // Future save() async {
+  //   var res1 = await http.post("http://localhost:5000/login",
+  //       headers: <String, String>{
+  //         'Context-Type': 'application/json;charSet=UTF-8'
+  //       },
+  //       body: <String, String>{
+  //         'email': user.email,
+  //         'password': user.password
+  //       });
+  //   // print(res.body);
+  //   // print(res.statusCode);
+  //   // print("hello");
+  //   // print(res.statusCode);
+  //   // if (res.statusCode != 10) {
+  //   //   showAlertDialog(context);
+  //   // } else {
+  //   //   Navigator.push(
+  //   //       context, new MaterialPageRoute(builder: (context) => Dashboard()));
+  //   // }
+  //   return res1;
+  // }
 
   User user = User('', '');
   @override
@@ -106,7 +114,7 @@ class _SigninState extends State<Signin> {
                   child: TextFormField(
                     controller: TextEditingController(text: user.email),
                     onChanged: (value) {
-                      user.email = value;
+                      user.password = value;
                     },
                     validator: (value) {
                       if (value.isEmpty) {
@@ -145,11 +153,13 @@ class _SigninState extends State<Signin> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16.0)),
                         onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            save();
-                          } else {
-                            print("not ok");
-                          }
+                          // if (_formKey.currentState.validate()) {
+                          //   save();
+                          // } else {
+                          //   print("not ok");
+                          // }
+
+                          checkError();
                         },
                         child: Text(
                           "Signin",
@@ -189,4 +199,77 @@ class _SigninState extends State<Signin> {
       ],
     ));
   }
+
+  checkError() async {
+    var res = await http.post("http://localhost:5000/login",
+        headers: <String, String>{
+          'Context-Type': 'application/json;charSet=UTF-8'
+        },
+        body: <String, String>{
+          'email': user.email,
+          'password': user.password
+        });
+    if (res.body.isEmpty) {
+      Navigator.push(
+          context, new MaterialPageRoute(builder: (context) => Dashboard()));
+    } else if (res.body.length == 7) {
+      showAlertDialog_email(context);
+    } else {
+      showAlertDialog_password(context);
+    }
+  }
+}
+
+showAlertDialog_email(BuildContext context) {
+  // set up the button
+  Widget okButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Error message"),
+    content: Text("You entered wrong Email!."),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+showAlertDialog_password(BuildContext context) {
+  // set up the button
+  Widget okButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Error message"),
+    content: Text("You entered wrong Password!."),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

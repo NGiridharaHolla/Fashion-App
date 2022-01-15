@@ -1,11 +1,16 @@
 const express = require('express')
 const app = express()
-const port = 8080 || process.env.PORT
+const port = 5000 || process.env.PORT
 const cors = require('cors')
 const bodyParser = require('body-parser')
 
 const mongoose = require('mongoose')
-mongoose.connect("mongodb://localhost:27017/mydb",{ useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect("mongodb+srv://dbuser:Database123@cluster0.zpt8k.mongodb.net/users?retryWrites=true&w=majority",{ useNewUrlParser: true, useUnifiedTopology: true })
+const connection=mongoose.connection;
+connection.once("open",()=>{
+    console.log('MongoDB connected');
+})
+
 
 
 app.use(cors())

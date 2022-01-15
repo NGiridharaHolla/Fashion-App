@@ -15,7 +15,7 @@ class Signup extends StatefulWidget {
 class _SignupState extends State<Signup> {
   final _formKey = GlobalKey<FormState>();
   Future save() async {
-    var res = await http.post("http://localhost:8080/signup",
+    var res = await http.post("http://localhost:5000/signup",
         headers: <String, String>{
           'Context-Type': 'application/json;charSet=UTF-8'
         },
@@ -105,7 +105,7 @@ class _SignupState extends State<Signup> {
                   child: TextFormField(
                     controller: TextEditingController(text: user.email),
                     onChanged: (value) {
-                      user.email = value;
+                      user.password = value;
                     },
                     validator: (value) {
                       if (value.isEmpty) {

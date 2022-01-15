@@ -36,14 +36,23 @@ router.post('/signup',(req,res)=>{
     
 })
 
-router.post('/signin',(req,res)=>{
-    User.findOne({email:req.body.email,password:req.body.password},(err,user)=>{
-        if(err){
-            console.log(err)
-            res.json(err)
+router.post('/login',(req,res)=>{
+    // var result;
+    User.findOne({email:req.body.email},(err,user)=>{
+        if(!user){
+            console.log('user does not exist');
+            res.json("email");
         }else{
-            res.json(user)   
+            User.findOne({password:req.body.password},(err,user)=>{
+                if(!user){
+                    res.json("password");
+                }
+                else{
+                    res.json();
+                }
+            });  
         }
     })
+
 })
 module.exports = router
