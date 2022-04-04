@@ -14,6 +14,7 @@
 build/
 lib/generated_plugin_registrant.dart
 node_modules
+config.env
 
 # Android related
 **/android/**/gradle-wrapper.jar
