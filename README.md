@@ -27,8 +27,3 @@ cd frontend
 ```
 flutter run
 ```
-
-`Or Open VSCode and`
-```
-Ctrl/Cmd + F5
-```
