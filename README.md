@@ -1,4 +1,4 @@
-## Flutter Node MongoDB Login Registration
+## Fashion app using Flutter
 
 `Git Clone`
 ```
